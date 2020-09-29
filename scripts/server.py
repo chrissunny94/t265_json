@@ -28,7 +28,7 @@ class Client(threading.Thread):
     def run(self):
         while self.signal:
             try:
-                data = self.socket.recv(32)
+                data = self.socket.recv(64)
             except:
                 print("Client " + str(self.address) + " has disconnected")
                 self.signal = False

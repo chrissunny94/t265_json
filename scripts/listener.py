@@ -25,12 +25,11 @@ def callback(data):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
-    JSON_OBJECT = { "X-coordinate": str(data.pose.pose.position.x), "Y-coordinate": str(data.pose.pose.position.y), "Timestamp":current_time}
-    x = json.dumps(JSON_OBJECT)
-    send_message(x)
+    JSON_OBJECT = { "X": str(round(data.pose.pose.position.x,4)), "Y": str(round(data.pose.pose.position.y,4)), "Timestamp":current_time}
+    send_message(json.dumps(JSON_OBJECT, sort_keys=True, indent= 3))
 
 def listener():
-    
+
     rospy.init_node('listener', anonymous=True)
     rospy.Subscriber('/camera/odom/sample', Odometry, callback)
 
