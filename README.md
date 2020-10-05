@@ -51,6 +51,10 @@ Install ROS ,
 ### Additional Info 
 
 
+https://youtu.be/
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/o33gFBxLlyk/0.jpg)](http://www.youtube.com/watch?v=o33gFBxLlyk "Video Title")
+
 We have attached a bagfile of what data the realsense sensor will put out when interfaced over ROS . 
 
 If you type 
