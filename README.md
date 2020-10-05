@@ -51,7 +51,6 @@ Install ROS ,
 ### Additional Info 
 
 
-https://youtu.be/
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/o33gFBxLlyk/0.jpg)](http://www.youtube.com/watch?v=o33gFBxLlyk "Video Title")
 
