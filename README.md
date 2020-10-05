@@ -53,11 +53,11 @@ Install ROS ,
 
 We have attached a bagfile of what data the realsense sensor will put out when interfaced over ROS . 
 
-if you type 
+If you type 
 
 	$ rostopic list
 
-then you will see this .
+Then you will see this .
 
 	/camera/accel/imu_info
 	/camera/accel/sample
@@ -76,6 +76,6 @@ then you will see this .
 
 
 
-Of which , this is the topic of 
+Of which , this is the topic of  our interest . This is what we are currently *fetching*  **from ROS** and *sending*  **out as JSON** .
 
 	/camera/odom/sample
