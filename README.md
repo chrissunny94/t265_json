@@ -88,12 +88,13 @@ We have attached a bagfile of what data the realsense sensor will put out when i
 
 * Run bag file 
 		
+	
 		rosbag play bagfile/2020-09-25-17-29-33.bag -l
 
 
 If you type 
 
-	$ rostopic list
+	 rostopic list
 
 Then you will see this .
 
@@ -117,3 +118,21 @@ Then you will see this .
 Of which , this is the topic of  our interest . This is what we are currently *fetching*  **from ROS** and *sending*  **out as JSON** .
 
 	/camera/odom/sample
+	
+
+
+
+
+
+
+Thie following command will give the information about the topic 
+
+	
+	 rostopic info /camera/odom/sample 
+	
+
+
+It will tell you that the message is of 
+
+* Type: nav_msgs/Odometry [http://docs.ros.org/melodic/api/nav_msgs/html/msg/Odometry.html](http://docs.ros.org/melodic/api/nav_msgs/html/msg/Odometry.html)  
+	
