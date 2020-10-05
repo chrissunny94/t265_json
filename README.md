@@ -23,9 +23,12 @@ Install ROS ,
 
 * Run the python script for capturing ROS topic from T265 sensor and publishing the following contents in JSON
 	   	
-	python scripts/t265_ROS_topic_to_JSON.py		
+	
+	
+		python scripts/t265_ROS_topic_to_JSON.py		
   
-    ![](docs/JSON_sample.png) 
+   
+    ![](docs/JSON_sample.jpg) 
     
    	* X/Latitude
    	* Y/Longitude
