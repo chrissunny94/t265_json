@@ -41,20 +41,29 @@ Install ROS ,
 
 
 
-* **Run the python script for capturing ROS topic from T265 sensor and publishing the following contents in JSON
-**	   	
+* Run the python script for **subscribing to ROS topic from T265 sensor**  	   	
 	
 	
 		python scripts/t265_ROS_topic_to_JSON.py		
   
+  
+   ![](docs/JSON_sample.jpg) 
    
-    ![](docs/JSON_sample.jpg) 
+  
+  it will end up  **publishing the following contents in JSON**
+   
+   
+   		{"Timestamp": "08:44:25", 
+   		"X": "0.0062", 
+   		"Y": "0.002}
+
+   
     
-   	* X/Latitude
-   	* Y/Longitude
-   	* Timestamp
    
 
+
+
+## All the following is for debug purposes only . 
 
 
 #### If you want  to run the server locally to echo out the JSON messages  and test , then  run the following
