@@ -93,8 +93,8 @@ def stop_callback(req):
 if __name__ == '__main__':
     rospy.init_node('test1', anonymous=True)
 
-    service = rospy.Service('launch', Trigger, service_callback)
+    service = rospy.Service('start_t265', Trigger, service_callback)
 
-    service = rospy.Service('stop_all', Trigger, stop_callback)
+    service = rospy.Service('stop_t265', Trigger, stop_callback)
 
     rospy.spin()
