@@ -9,13 +9,13 @@ rospy.init_node('sos_service_client')
 rospy.wait_for_service('/fake_911')
 
 # Create the connection to the service. Remember it's a Trigger service
-#sos_service = rospy.ServiceProxy('/fake_911', Trigger)
+sos_service = rospy.ServiceProxy('/fake_911', Trigger)
 
 # Create an object of the type TriggerRequest. We nned a TriggerRequest for a Trigger service
-#sos = TriggerRequest()
+sos = TriggerRequest()
 
 # Now send the request through the connection
-#result = sos_service(sos)
+result = sos_service(sos)
 
 # Done
 print result
