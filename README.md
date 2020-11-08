@@ -5,7 +5,7 @@ This script will fetech the Odometry data from a ROS topic and publish it as a J
 
 
 
-##CLONE THE REPO
+## CLONE THE REPO
 
 	git clone https://github.com/chrissunny94/t265_json
 
