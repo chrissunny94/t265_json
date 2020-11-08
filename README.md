@@ -10,6 +10,13 @@ This script will fetech the Odometry data from a ROS topic and publish it as a J
 	git clone https://github.com/chrissunny94/t265_json
 
 
+
+## TO INSTALL ROS FROM SOURCE 
+
+	cd t265_json
+
+	./install_ROS.sh
+
 ## Pre Requisites .
 
 Install ROS , 
