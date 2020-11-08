@@ -23,7 +23,7 @@ sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
 sudo update-alternatives --set cc /usr/bin/gcc
 sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
 sudo update-alternatives --set c++ /usr/bin/g++
-sudo apt install libconsole-bridge-dev
+sudo apt install libconsole-bridge-dev libpoco-dev
 sudo apt install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake python-empy
 rosdep install --from-paths src --ignore-src --rosdistro melodic -y
 
