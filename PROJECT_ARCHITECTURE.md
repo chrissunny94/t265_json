@@ -10,16 +10,20 @@ This JSON is the init coming from the Android phone to start the the stuff on th
 
 
 
-    {	calling_number:<STRING>,
+    	{	
+	calling_number:<STRING>,
 	call duration:<INT>,
 	MAP_NAME:<STRING>,
 	who_is_creating_the_map:<STRING>,
 	GPS{LAT:<FLOAT> , LONG:<FLOAT>},
 	TIME_BASE_TRIGGER:<BOOL>,
 	DISTANCE_BASED_TRIGGER:<BOOL>	
+	IP_ADR_RPI:<192.168.x.x>
 
 
 	}
+
+
 
 
 
