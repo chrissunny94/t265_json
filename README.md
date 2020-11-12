@@ -17,6 +17,10 @@ Install ROS ,
 * http://wiki.ros.org/ROS/Installation , for laptop/desktop , use this
 * https://downloads.ubiquityrobotics.com/pi.html ,for raspberry Pi , use this .(*This comes preinstalled with ROS *)
 	* Tested on 2GB and 4GB variant 
+
+Install ROS from source ,
+
+	./install_ROS.sh
 	
 
 #### Install Realsense Drivers
