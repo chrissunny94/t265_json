@@ -1,30 +1,50 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 from std_msgs.msg import Int64
 from std_srvs.srv import SetBool
 
-class NumberCounter:
+
+
+import json
+from datetime import datetime
+from nav_msgs.msg import Odometry
+from std_msgs.msg import String
+
+
+import socket
+import json
+
+print("CLASS FOR T265")
+
+class T265Json():
 
     def __init__(self):
-        self.counter = 0
-        self.pub = rospy.Publisher("/number_count", Int64, queue_size=10)
-        self.number_subscriber = rospy.Subscriber("/number", Int64, self.callback_number)
-        self.reset_service = rospy.Service("/reset_counter", SetBool, self.callback_reset_counter)
+        print("Class constructor")
+        self.odometry_subscriber = rospy.Subscriber('/camera/odom/sample', Odometry, self.callback_t265)
+        print("callback for odometry ")
 
-    def callback_number(self, msg):
-        self.counter += msg.data
-        new_msg = Int64()
-        new_msg.data = self.counter
-        self.pub.publish(new_msg)
+        
+        HOST = '127.0.0.1'  # The server's hostname or IP address
+        PORT = 8081         # The port used by the server
+        print("Setting IP address:",HOST)
+        print("Setting PORT:",PORT)
 
-    def callback_reset_counter(self, req):
-        if req.data:
-            self.counter = 0
-            return True, "Counter has been successfully reset"
-        return False, "Counter has not been reset"
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.connect((HOST, PORT))
+        print("T265 JSON CLASS INITIATED")
+
+    def callback_t265(self,data):
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
+        JSON_OBJECT = { "X": str(round(data.pose.pose.position.x,4)), "Y": str(round(data.pose.pose.position.y,4)), "Timestamp":current_time}
+        send_message(json.dumps(JSON_OBJECT, sort_keys=True, indent= 3))
+
 
 if __name__ == '__main__':
-    rospy.init_node('number_counter')
-    NumberCounter()
+    
+    print("main")
+    T265Json()
+    rospy.init_node('t265_Json_class')
     rospy.spin()
