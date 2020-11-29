@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>t265_json</name>
+  <version>0.7.2</version>
+  <description>Launch files and code for t265 to JSON</description>
+  <author email="spourmehr@clearpathrobotics.com">Shokoofeh Pourmehr</author>
+  <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+
+  <export>
+
+  </export>
+</package>

@@ -5,9 +5,77 @@ This script will fetech the Odometry data from a ROS topic and publish it as a J
 
 
 
-## CLONE THE REPO
+## Make a workspace , clone the repository and build
 
-	git clone https://github.com/chrissunny94/t265_json
+
+
+```
+
+mkdir ~/REALSENSE_ws/src -p
+cd ~/REALSENSE_ws/src
+git clone https://github.com/chrissunny94/t265_json
+cd ..
+catkin_make
+
+```
+
+
+
+
+
+
+##  SOURCE THE REPOSITORY
+
+```
+cd ~/REALSENSE_ws
+source devel/setup.bash
+```
+
+
+
+
+## RUN THE T265 application
+
+
+```
+roslaunch t265_json demo_t265.launch
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	
 
 ## To fetch changes from the repo without re-cloning the repo
 	
