@@ -38,6 +38,17 @@ catkin build
 
 ```
 cd ~/REALSENSE_ws/src/t265_json
+
+```
+
+*Do the following to keep this repo upto date *
+
+```
+git pull
+```
+
+
+```
 ./install_realsense_on_raspberry.sh
 
 ./install_librealsense.sh
