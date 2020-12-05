@@ -4,6 +4,14 @@
 This script will fetech the Odometry data from a ROS topic and publish it as a JSON file over  Socket communication .
 
 
+## PRe requisites
+
+```
+
+sudo apt install python-catkin-tools
+```
+
+
 
 ## Make a workspace , clone the repository and build
 
@@ -17,18 +25,16 @@ git clone https://github.com/chrissunny94/t265_json
 cd ..
 catkin build
 
-```
-
-
-## PRe requisites
+cd src/t265_json
 
 ```
 
-sudo apt install python-catkin-tools
-```
+
 
 
 ## Install ROS and linux drivers for REALSENSE camera
+
+*Once you are in the root of the cloned repository , please execute the following commands*
 
 ```
 ./install_realsense_on_raspberry.sh
