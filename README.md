@@ -25,7 +25,7 @@ git clone https://github.com/chrissunny94/t265_json
 cd ..
 catkin build
 
-cd src/t265_json
+
 
 ```
 
@@ -37,6 +37,7 @@ cd src/t265_json
 *Once you are in the root of the cloned repository , please execute the following commands*
 
 ```
+cd ~/REALSENSE_ws/src/t265_json
 ./install_realsense_on_raspberry.sh
 
 ./install_librealsense.sh
