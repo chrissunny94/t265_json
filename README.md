@@ -4,6 +4,22 @@
 This script will fetech the Odometry data from a ROS topic and publish it as a JSON file over  Socket communication .
 
 
+
+## Make a workspace , clone the repository and build
+
+
+
+```
+
+mkdir ~/REALSENSE_ws/src -p
+cd ~/REALSENSE_ws/src
+git clone https://github.com/chrissunny94/t265_json
+cd ..
+catkin build
+
+```
+
+
 ## PRe requisites
 
 ```
@@ -22,19 +38,7 @@ sudo apt install python-catkin-tools
 ```
 
 
-## Make a workspace , clone the repository and build
 
-
-
-```
-
-mkdir ~/REALSENSE_ws/src -p
-cd ~/REALSENSE_ws/src
-git clone https://github.com/chrissunny94/t265_json
-cd ..
-catkin build
-
-```
 
 
 
