@@ -12,6 +12,16 @@ sudo apt install python-catkin-tools
 ```
 
 
+## Install ROS and linux drivers for REALSENSE camera
+
+```
+./install_realsense_on_raspberry.sh
+
+./install_librealsense.sh
+ 
+```
+
+
 ## Make a workspace , clone the repository and build
 
 
