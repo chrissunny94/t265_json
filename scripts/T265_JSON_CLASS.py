@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import rospy
+import rospkg
 from std_msgs.msg import Int64
 from std_srvs.srv import SetBool
 import csv
@@ -14,8 +15,11 @@ from std_msgs.msg import String
 data = json
 
 import socket
-import json
 
+
+rospack = rospkg.RosPack()
+Package_Path=rospack.get_path('t265_json')
+print ("PackagePath:",Package_Path)
 print("CLASS FOR T265")
 
 class T265Json():
@@ -53,7 +57,7 @@ class T265Json():
     
     def create_csv(self,data):
         print("CSV Working")
-        with open('user_data.csv', mode='w') as file:
+        with open(Package_Path+'/output/user_data.csv', mode='w') as file:
             
             user_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
@@ -69,7 +73,7 @@ class T265Json():
 
     def create_csv2(self,data):
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
-        with open('user_data.csv', 'a+') as f:
+        with open(Package_Path+'/output/user_data.csv', 'a+') as f:
             #line = f.readline()
             
             #for line in f:
