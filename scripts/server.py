@@ -29,7 +29,7 @@ class Client(threading.Thread):
         self.id = id
         self.name = name
         self.signal = signal
-        self.pub_JSON = rospy.Publisher('JSON_from_phone', JSON, queue_size=10)
+        self.pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=10)
     
     def __str__(self):
         return str(self.id) + " " + str(self.address)
@@ -60,10 +60,12 @@ class Client(threading.Thread):
                 temp_variable.call_duration
                 temp_variable.TIME_BASED_TRIGGER
                 temp_variable.DISTANCE_BASED_TRIGGER
-                self.pub_JSON(temp_variable)
+                #self.pub_JSON(temp_variable)
                 for client in connections:
                     if client.id != self.id:
                         client.socket.sendall(data)
+    def join(self):
+        return 1
 
 #Wait for new connections
 def newConnections(socket):
@@ -76,18 +78,14 @@ def newConnections(socket):
         total_connections += 1
 
 def main():
-    #Get host and port
-    #host = input("Host: ")
-    hostname = socket.gethostname()
-    host=socket.gethostbyname(hostname)
-    #print([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2]  if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0])
     
-    #print ("IP Address =",l)
-    #host = l[0]
-    host = str(os.system('hostname -I'))
+   
+    
+    hostname = socket.gethostname()
     print("Your Computer Name is:" + hostname)    
+    host = str(os.popen('hostname -I').read())
+    host = host.replace("\n","")
     print("Your Computer IP Address is:" + host)  
-    #port = int(input("Port: "))
     port = 8081
     print("Port:",port)
     #Create new server socket

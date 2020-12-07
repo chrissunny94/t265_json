@@ -12,6 +12,7 @@ import json
 from datetime import datetime
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
+from t265_json.msg import JSON
 data = json
 
 import socket
@@ -26,8 +27,11 @@ class T265Json():
 
     def __init__(self):
         print("Class constructor")
-        self.odometry_subscriber = rospy.Subscriber('/camera/odom/sample', Odometry, self.callback_t265)
         print("callback for odometry ")
+        self.odometry_subscriber = rospy.Subscriber('/camera/odom/sample', Odometry, self.callback_t265)
+        print("callback for JSON_from_phone")
+        self.JSON_subscriber = rospy.Subscriber('/JSON_from_phone', JSON, self.callback_JSON)
+        
         
         #self.create_csv(self)
        
@@ -46,9 +50,13 @@ class T265Json():
         now = datetime.now()
         self.current_time = now.strftime("%H:%M:%S")
         rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
-        #self.create_csv(data)
-        self.create_csv2(data)
-        #self.append(data)
+        self.append_csv(data)
+
+
+    def callback_JSON(self,data):
+        print(data)
+        self.create_csv(data)
+        
         
 
     def send_JSON(self,data):
@@ -60,18 +68,19 @@ class T265Json():
         with open(Package_Path+'/output/user_data.csv', mode='w') as file:
             
             user_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-            user_writer.writerow(['Mapname'])
-            user_writer.writerow(['Who is creating the Map'])
-            user_writer.writerow(['calling number'])
-            user_writer.writerow(['call duration'])
+            user_writer.writerow(['Mapname',data.MAP_NAME])
             user_writer.writerow(['last_location'])
-            user_writer.writerow(['Time-based Trigger'])
-            user_writer.writerow(['Distance-based Trigger'])
+            user_writer.writerow(['Who is creating the Map',data.MAP_CREATOR])
+            user_writer.writerow(['GPS_LAT',data.GPS_LAT])
+            user_writer.writerow(['GPS_LONG',data.GPS_LONG])
+            user_writer.writerow(['calling number',data.calling_number])
+            user_writer.writerow(['call duration',data.call_duration])
+            user_writer.writerow(['Time-based Trigger',int(data.TIME_BASED_TRIGGER)])
+            user_writer.writerow(['Distance-based Trigger',int(data.DISTANCE_BASED_TRIGGER)])
             user_writer.writerow(['X', 'Y', 'Timestamp'])
         print(file.mode)
 
-    def create_csv2(self,data):
+    def append_csv(self,data):
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
         with open(Package_Path+'/output/user_data.csv', 'a+') as f:
             #line = f.readline()
