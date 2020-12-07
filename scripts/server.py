@@ -3,6 +3,7 @@ import socket
 import threading
 import os 
 from t265_json.msg import JSON
+import rospy
 
 
 os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
@@ -10,6 +11,12 @@ os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 #Variables for holding information about connections
 connections = []
 total_connections = 0
+
+
+
+
+
+
 
 #Client class, new instance created for each connected client
 #Each instance has the socket and address that is associated with items
@@ -22,6 +29,7 @@ class Client(threading.Thread):
         self.id = id
         self.name = name
         self.signal = signal
+        self.pub_JSON = rospy.Publisher('JSON_from_phone', JSON, queue_size=10)
     
     def __str__(self):
         return str(self.id) + " " + str(self.address)
@@ -42,6 +50,17 @@ class Client(threading.Thread):
                 break
             if data != "":
                 print("ID " + str(self.id) + ": " + str(data.decode("utf-8")))
+                #@Sharath you have to stuff this with data extracted from JSON
+                temp_variable = JSON()
+                temp_variable.MAP_NAME
+                temp_variable.MAP_CREATOR
+                temp_variable.GPS_LAT
+                temp_variable.GPS_LONG
+                temp_variable.calling_number
+                temp_variable.call_duration
+                temp_variable.TIME_BASED_TRIGGER
+                temp_variable.DISTANCE_BASED_TRIGGER
+                self.pub_JSON(temp_variable)
                 for client in connections:
                     if client.id != self.id:
                         client.socket.sendall(data)
