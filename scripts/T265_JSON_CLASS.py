@@ -34,15 +34,15 @@ class T265Json():
         print("Setting IP address:",HOST)
         print("Setting PORT:",PORT)
 
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.s.connect((HOST, PORT))
+        #self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.s.connect((HOST, PORT))
         print("T265 JSON CLASS INITIATED")
 
     def callback_t265(self,data):
         now = datetime.now()
         self.current_time = now.strftime("%H:%M:%S")
         rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
-        self.create_csv(data)
+        #self.create_csv(data)
         self.create_csv2(data)
         #self.append(data)
         
