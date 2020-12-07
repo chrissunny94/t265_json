@@ -45,6 +45,7 @@ class T265Json():
         #self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         #self.s.connect((HOST, PORT))
         print("T265 JSON CLASS INITIATED")
+        self.MAP_FILE_NAME = 'user_data.csv'
 
     def callback_t265(self,data):
         now = datetime.now()
@@ -54,6 +55,7 @@ class T265Json():
 
 
     def callback_JSON(self,data):
+        self.MAP_FILE_NAME= data.MAP_NAME + '.csv'
         print(data)
         self.create_csv(data)
         
@@ -65,7 +67,7 @@ class T265Json():
     
     def create_csv(self,data):
         print("CSV Working")
-        with open(Package_Path+'/output/user_data.csv', mode='w') as file:
+        with open(Package_Path+'/output/'+self.MAP_FILE_NAME, mode='w') as file:
             
             user_writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             user_writer.writerow(['Mapname',data.MAP_NAME])
@@ -82,7 +84,7 @@ class T265Json():
 
     def append_csv(self,data):
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
-        with open(Package_Path+'/output/user_data.csv', 'a+') as f:
+        with open(Package_Path+'/output/'+self.MAP_FILE_NAME, 'a+') as f:
             #line = f.readline()
             
             #for line in f:
