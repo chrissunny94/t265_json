@@ -1,0 +1,8 @@
+string MAP_NAME
+string MAP_CREATOR
+float32 GPS_LAT
+float32 GPS_LONG
+string calling_number
+float32 call_duration
+bool TIME_BASED_TRIGGER
+bool DISTANCE_BASED_TRIGGER
