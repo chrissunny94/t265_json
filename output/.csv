@@ -1,0 +1,17 @@
+Mapname,
+last_location
+Who is creating the Map,
+GPS_LAT,0.0
+GPS_LONG,0.0
+calling number,
+call duration,0.0
+Time-based Trigger,0
+Distance-based Trigger,1
+X,Y,Timestamp
+0.4999,-0.0136,15:56:23
+0.9929,0.0721,15:56:31
+1.371,0.4009,15:56:41
+0.9839,0.0829,15:56:48
+0.5567,-0.1771,15:56:49
+0.0553,-0.1484,15:56:51
+-0.2263,0.2654,15:56:53

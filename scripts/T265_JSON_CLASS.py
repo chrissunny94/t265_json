@@ -6,6 +6,7 @@ from std_msgs.msg import Int64
 from std_srvs.srv import SetBool
 import csv
 import os
+import math
 
 
 import json
@@ -46,20 +47,54 @@ class T265Json():
         #self.s.connect((HOST, PORT))
         print("T265 JSON CLASS INITIATED")
         self.MAP_FILE_NAME = 'user_data.csv'
+        self.last_time = None
+        self.last_odom = Odometry()
+        self.TIME_BASED_TRIGGER = False
+        self.DISTANCE_BASED_TRIGGER = False
 
     def callback_t265(self,data):
+         
         now = datetime.now()
         self.current_time = now.strftime("%H:%M:%S")
-        rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
-        self.append_csv(data)
+        #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
+        #self.append_csv(data)
+
+        if (self.TIME_BASED_TRIGGER) :
+            if (self.last_time == None):
+                #self.last_time = self.current_time
+                self.last_time = now
+                self.append_csv(data)
+                print("Time based trigger")
+            elif ((now - self.last_time).seconds >= 1) :
+                print((now - self.last_time).seconds)
+                self.last_time = now
+                self.append_csv(data)
+        elif (self.DISTANCE_BASED_TRIGGER) :
+            X = data.pose.pose.position.x
+            Y = data.pose.pose.position.y
+            last_x = self.last_odom.pose.pose.position.x
+            last_y = self.last_odom.pose.pose.position.y
+            if (self.last_odom == None) :
+                self.last_odom = data
+                self.append_csv(data)
+                print("Distance based trigger")
+            elif (math.hypot((last_x - X), (last_y - Y)) > .5):
+                self.last_odom = data
+                self.append_csv(data)
+            
+        
+                
+
+
+
 
 
     def callback_JSON(self,data):
         self.MAP_FILE_NAME= data.MAP_NAME + '.csv'
+        self.TIME_BASED_TRIGGER = data.TIME_BASED_TRIGGER
+        self.DISTANCE_BASED_TRIGGER = data.DISTANCE_BASED_TRIGGER
         print(data)
         self.create_csv(data)
-        
-        
 
     def send_JSON(self,data):
         JSON_OBJECT = { "X": str(round(data.pose.pose.position.x,4)), "Y": str(round(data.pose.pose.position.y,4)), "Timestamp":current_time}
@@ -81,6 +116,8 @@ class T265Json():
             user_writer.writerow(['Distance-based Trigger',int(data.DISTANCE_BASED_TRIGGER)])
             user_writer.writerow(['X', 'Y', 'Timestamp'])
         print(file.mode)
+        self.last_odom = Odometry()
+        self.last_time = None
 
     def append_csv(self,data):
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
@@ -96,7 +133,8 @@ class T265Json():
             writer = csv.writer(f)
             writer.writerow(fields)
                 
-        print(f.mode)
+        print("Data appended")
+
 
     def append(self,data):
         print("append working")
