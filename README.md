@@ -106,6 +106,15 @@ sudo pifi add <name-of-wifi-network> <password-of-wifi-network>
 ```
 
 
+-  [https://learn.ubiquityrobotics.com/connect_network](https://learn.ubiquityrobotics.com/connect_network)
+
+
+
+#Other usefull stuff
+
+-  [https://winscp.net/eng/index.php](https://winscp.net/eng/index.php)
+
+
 
 
 
