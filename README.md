@@ -41,7 +41,7 @@ cd ~/REALSENSE_ws/src/t265_json
 
 ```
 
-*Do the following to keep this repo upto date *
+*Do the following to keep this repo upto date*
 
 ```
 git pull
