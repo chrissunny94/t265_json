@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-
-
+#!/usr/bin/env python
 import socket
 import sys , os
 from t265_json.msg import JSON
@@ -57,7 +55,7 @@ while True:
                 connection.sendall(data)
                 data = str(data)
                 JSON_string = data[(data.find('map_name')-2):(len(data)-1)]
-                JSON_data = json.loads(JSON_string)
+                JSON_data = json.loads(JSON_string.replace('u"','"'))
                 temp_variable = JSON()
                 temp_variable.MAP_NAME              = (JSON_data['map_name'])
                 temp_variable.MAP_CREATOR           = (JSON_data['who_is_creating_the_map'])

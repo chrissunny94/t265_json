@@ -1,5 +1,5 @@
 <launch>
-  <node name="Server_node" pkg="t265_json" type="server.py" output="screen"/>
+<!--  <node name="Server_node" pkg="t265_json" type="server.py" output="screen"/>-->
   <node name="T265_JSON_CLASS_node" pkg="t265_json" type="T265_JSON_CLASS.py" output="screen"/>
   <include file="$(find realsense2_camera)/launch/rs_t265.launch"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_camera)/rviz/t265.rviz" required="true" />
