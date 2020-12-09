@@ -1,0 +1,1 @@
+s = "{"map_name":"Chrisroom","who_is_creating_the_map":"Chris","calling_number":"1122334455","call_duration":"1","last_location":{"latitude":10.3489549,"longitude":76.2224972},"time_based_trigger":false,"distance_based_trigger":true}"

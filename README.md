@@ -82,12 +82,28 @@ echo "source ~/REALSENSE_ws/devel/setup.bash" >> ~/.bashrc
 
 ## RUN THE T265 application
 
+**THIS IS IF YOU HAVE THE PI CONNECTED TO A MONITOR **
 
 ```
 roslaunch t265_json demo_t265.launch
 
 ```
 
+
+
+## WITHOUT A MONITOR 
+
+```
+ roslaunch t265_json t265_node_without_rviz.launch
+```
+
+
+
+## Make the PI connect to a network
+
+```
+sudo pifi add <name-of-wifi-network> <password-of-wifi-network>
+```
 
 
 

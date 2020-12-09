@@ -1,0 +1,16 @@
+Mapname,Chrisroomdistance
+last_location
+Who is creating the Map,Chris
+GPS_LAT,10.348954200744629
+GPS_LONG,76.22249603271484
+calling number,1122334455
+call duration,1.0
+Time-based Trigger,0
+Distance-based Trigger,1
+X,Y,Timestamp
+0.4849,-0.1235,19:50:22
+0.9626,-0.2724,19:50:24
+1.4388,-0.4275,19:50:26
+0.9829,-0.2196,19:50:58
+0.4987,-0.0943,19:51:00
+0.0008,-0.1401,19:51:04
