@@ -40,19 +40,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             while True:
                 data = str(conn.recv(1024))
-                print(data.find('map_name'), len(data))
+                #print(data.find('map_name'), len(data))
                 JSON_string = data[(data.find('map_name')-2):(len(data)-1)]
-                print(JSON_string)
+                #print(JSON_string)
                 JSON_data = json.loads(JSON_string)
                 temp_variable = JSON()
                 temp_variable.MAP_NAME=              str(JSON_data['map_name']).replace("\"","")
                 temp_variable.MAP_CREATOR=           str(JSON_data['who_is_creating_the_map'])
-                #temp_variable.GPS_LAT=               (JSON_data['last_location']['latitude'])
-                #temp_variable.GPS_LONG=              (JSON_data['last_location']['longitude'])
+                temp_variable.GPS_LAT=               (JSON_data['last_location']['latitude'])
+                temp_variable.GPS_LONG=              (JSON_data['last_location']['longitude'])
                 temp_variable.calling_number=        (JSON_data['calling_number'])
-                #temp_variable.call_duration=         (JSON_data['call_duration'])
+                temp_variable.call_duration=         (JSON_data['call_duration'])
                 temp_variable.TIME_BASED_TRIGGER=    (JSON_data['time_based_trigger'])
-                #temp_variable.DISTANCE_BASED_TRIGGER=(JSON_data['distance_based_trigger'])
+                temp_variable.DISTANCE_BASED_TRIGGER=(JSON_data['distance_based_trigger'])
                 print(temp_variable)
                 pub_JSON.publish(temp_variable)
             
