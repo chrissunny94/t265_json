@@ -110,6 +110,22 @@ sudo pifi add <name-of-wifi-network> <password-of-wifi-network>
 
 
 
+After you have done this 
+
+```
+ping ubiquityrobot
+```
+
+ ![A test image](docs/find_ip.png)
+
+
+
+Put the IP address into Putty and WINScp
+
+
+
+
+
 #Other usefull stuff
 
 -  [https://winscp.net/eng/index.php](https://winscp.net/eng/index.php)
