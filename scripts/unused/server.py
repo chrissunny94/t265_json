@@ -1,11 +1,23 @@
+#!/usr/bin/env python3
 import socket
 import threading
+import os 
+from t265_json.msg import JSON
+import rospy
 import json
+
+
+os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 
 #Variables for holding information about connections
 connections = []
 total_connections = 0
-condition = True
+
+
+
+
+
+
 
 #Client class, new instance created for each connected client
 #Each instance has the socket and address that is associated with items
@@ -18,6 +30,7 @@ class Client(threading.Thread):
         self.id = id
         self.name = name
         self.signal = signal
+        self.pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=10)
     
     def __str__(self):
         return str(self.id) + " " + str(self.address)
@@ -37,20 +50,27 @@ class Client(threading.Thread):
                 connections.remove(self)
                 break
             if data != "":
-                #print("ID " + str(self.id) + ": " + str(data.decode("utf-8")))
-                #parsed_json = str(data)
-                #print(parsed_json)
-                x = json.loads(data)
-                print(x["Reset "])
-                y = x["Reset "]
-                print(type(y))
-                if y == condition:
-                    print("Reset Button Triggered!!!")
-                #if str(data.decode("utf-8") = True)
-                #    print "True"
+                print("ID " + str(self.id) + ": " + str(data.decode("utf-8")))
+                #@Sharath you have to stuff this with data extracted from JSON
+                JSON_string = data[(data.find('map_name')-2):(len(data)-1)]
+                print(JSON_string)
+                JSON_data = json.loads(JSON_string)
+                temp_variable = JSON()
+                temp_variable.MAP_NAME=JSON_data['map_name']
+                temp_variable.MAP_CREATOR=JSON_data['who_is_creating_the_map']
+                temp_variable.GPS_LAT=JSON_data['last_location']['latitude']
+                temp_variable.GPS_LONG=JSON_data['last_location']['longitude']
+                temp_variable.calling_number=JSON_data['calling_number']
+                temp_variable.call_duration=JSON_data['call_duration']
+                temp_variable.TIME_BASED_TRIGGER=JSON_data['time_based_trigger']
+                temp_variable.DISTANCE_BASED_TRIGGER=JSON_data['distance_based_trigger']
+                print(temp_variable)
+                self.pub_JSON.publish(temp_variable)
                 for client in connections:
                     if client.id != self.id:
                         client.socket.sendall(data)
+    def join(self):
+        return 1
 
 #Wait for new connections
 def newConnections(socket):
@@ -63,11 +83,17 @@ def newConnections(socket):
         total_connections += 1
 
 def main():
-    #Get host and port
-    #host = input("Host: ")
-    #port = int(input("Port: "))
-    host = "127.0.0.1"
-    port = 8080
+    
+    rospy.init_node('JSON_server_simple', anonymous=True)
+    
+    hostname = socket.gethostname()
+    print("Your Computer Name is:" + hostname)    
+    host = str(os.popen('hostname -I').read())
+    host = host.replace("\n","")
+    host = host.replace(' ','')
+    print("Your Computer IP Address is:" + host)  
+    port = 8081
+    print("Port:",port)
     #Create new server socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((host, port))
