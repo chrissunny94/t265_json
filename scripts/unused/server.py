@@ -69,6 +69,9 @@ class Client(threading.Thread):
                 for client in connections:
                     if client.id != self.id:
                         client.socket.sendall(data)
+
+                
+                client.socket.sendall("ACK")
     def join(self):
         return 1
 

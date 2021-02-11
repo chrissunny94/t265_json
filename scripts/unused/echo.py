@@ -8,8 +8,6 @@ import rospy
 import json
 import sys
 
-HOST = '192.168.1.16'  # Standard loopback interface address (localhost)
-PORT = 8081        # Port to listen on (non-privileged ports are > 1023)
 
 os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 os.system('fuser -n tcp 8081')
