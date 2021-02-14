@@ -1,6 +1,4 @@
-
-
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import socket
 import sys , os
 from t265_json.msg import JSON
@@ -8,6 +6,7 @@ import rospy
 import json
 import sys
 
+from std_msgs.msg import Bool   
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -36,6 +35,13 @@ print('starting up on {} port {}'.format(*server_address))
 
 pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=1)                
 rospy.init_node('JSON_server_simple', anonymous=True)
+trigger_bool = False
+
+def trigger_callback(data):
+    print("trigger recieved")
+    global trigger_bool 
+    trigger_bool = True
+Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,trigger_callback)
 
 
 def recv(): 
@@ -49,10 +55,19 @@ def recv():
     while True:
         conn, addr = client.accept()
         print ("client with address: ", addr, " is connected.")
+        conn.settimeout(5.0)
         data = conn.recv(1024)
-        print ("Recieved this data: <", data, "> from the client.")
+        JSON_data = json.loads(data)
+        print ("Recieved this data: <", JSON_data, "> from the client.")
+        global trigger_bool
+        if (trigger_bool):
+            print("trigger phone calls ")
+            ack_packet = json.dumps({"trigger_call":True})
+            print('\n\n\nsending data back to the client\n\n'+ack_packet)
+            conn.sendall(ack_packet.encode("utf-8"))
+            trigger_bool = False
 
-        if data:
+        if 'map_name' in JSON_data:
             print(data)
             print('\nsending data back to the client')
             ack_packet = 'Data_recieved_by_raspberry_pi'
@@ -66,16 +81,22 @@ def recv():
             print(JSON_data["map_name"])
             temp_variable = JSON()
             temp_variable.MAP_NAME              = str(JSON_data['map_name'])
-            temp_variable.MAP_CREATOR           = str(JSON_data['who_is_creating_the_map'])
+            temp_variable.MAP_CREATOR           = str(JSON_data['map_created_by'])
             temp_variable.GPS_LAT               = float(JSON_data['last_location']['system_latitude'])
             temp_variable.GPS_LONG              = float(JSON_data['last_location']['system_longitude'])
             temp_variable.calling_number        = str(JSON_data['calling_number'])
             temp_variable.call_duration         = float(JSON_data['call_duration'])
-            temp_variable.TIME_BASED_TRIGGER    = (JSON_data['time_based_trigger'])
-            temp_variable.DISTANCE_BASED_TRIGGER= (JSON_data['distance_based_trigger'])
+            temp_variable.TIME_BASED_TRIGGER    = (JSON_data['trigger_time_based'])
+            temp_variable.DISTANCE_BASED_TRIGGER= (JSON_data['trigger_distance_based'])
             print(temp_variable)
             pub_JSON.publish(temp_variable)
             print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
+        
+        elif 'stop_mapping' in JSON_data:
+            print("stop mapping ")
+            ack_packet = json.dumps({"stopped_mapping":True})
+            print('\n\n\nsending data back to the client\n\n'+ack_packet)
+            conn.sendall(ack_packet.encode("utf-8"))
 
         
         elif data == "Correct":

@@ -2,7 +2,7 @@
 
 import rospy
 import rospkg
-from std_msgs.msg import Int64
+from std_msgs.msg import Int64 ,Bool
 from std_srvs.srv import SetBool
 import csv
 import os
@@ -32,7 +32,7 @@ class T265Json():
         self.odometry_subscriber = rospy.Subscriber('/camera/odom/sample', Odometry, self.callback_t265)
         print("callback for JSON_from_phone")
         self.JSON_subscriber = rospy.Subscriber('/JSON_from_phone', JSON, self.callback_JSON)
-        
+        self.Trigger_publisher = rospy.Publisher('/android_call_trigger',Bool, queue_size=10)
         
         #self.create_csv(self)
        
@@ -64,6 +64,7 @@ class T265Json():
                 #self.last_time = self.current_time
                 self.last_time = now
                 self.append_csv(data)
+                self.Trigger_publisher.publish(True)
                 print("Time based trigger")
             elif ((now - self.last_time).seconds >= 1) :
                 print((now - self.last_time).seconds)
