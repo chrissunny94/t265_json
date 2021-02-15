@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy, rospkg
 from std_msgs.msg import Int64 ,Bool
 from std_srvs.srv import SetBool
