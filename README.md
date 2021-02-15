@@ -9,7 +9,7 @@
 
 
 
-![](docs/android1.jpeg)
-![](docs/android.jpeg) 
+![](docs/android1.jpeg =300x100)
+![](docs/android.jpeg =300x100) 
 
 
