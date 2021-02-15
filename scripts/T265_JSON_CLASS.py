@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import rospy
 import rospkg
@@ -36,18 +36,12 @@ class T265Json():
         
         #self.create_csv(self)
        
-        self.current_time = 0
-
-        HOST = '127.0.0.1'  # The server's hostname or IP address
-        PORT = 8082         # The port used by the server
-        print("Setting IP address:",HOST)
-        print("Setting PORT:",PORT)
-
-        #self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.s.connect((HOST, PORT))
+        
+        
         print("T265 JSON CLASS INITIATED")
         self.MAP_FILE_NAME = 'user_data.csv'
         self.last_time = None
+        self.current_time = 0
         self.last_odom = Odometry()
         self.TIME_BASED_TRIGGER = False
         self.DISTANCE_BASED_TRIGGER = False
@@ -63,6 +57,7 @@ class T265Json():
             if (self.last_time == None):
                 #self.last_time = self.current_time
                 self.last_time = now
+                self.current_time = now
                 self.append_csv(data)
                 self.Trigger_publisher.publish(True)
                 print("Time based trigger")
@@ -78,18 +73,13 @@ class T265Json():
             if (self.last_odom == None) :
                 self.last_odom = data
                 self.append_csv(data)
+                self.Trigger_publisher.publish(True)
                 print("Distance based trigger")
             elif (math.hypot((last_x - X), (last_y - Y)) > .5):
                 self.last_odom = data
                 self.append_csv(data)
             
         
-                
-
-
-
-
-
     def callback_JSON(self,data):
         self.MAP_FILE_NAME= data.MAP_NAME + '.csv'
         self.TIME_BASED_TRIGGER = data.TIME_BASED_TRIGGER
@@ -98,7 +88,7 @@ class T265Json():
         self.create_csv(data)
 
     def send_JSON(self,data):
-        JSON_OBJECT = { "X": str(round(data.pose.pose.position.x,4)), "Y": str(round(data.pose.pose.position.y,4)), "Timestamp":current_time}
+        JSON_OBJECT = { "X": str(round(data.pose.pose.position.x,4)), "Y": str(round(data.pose.pose.position.y,4)), "Timestamp":self.current_time}
         send_message(json.dumps(JSON_OBJECT, sort_keys=True, indent= 3))
     
     def create_csv(self,data):
@@ -123,13 +113,6 @@ class T265Json():
     def append_csv(self,data):
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
         with open(Package_Path+'/output/'+self.MAP_FILE_NAME, 'a+') as f:
-            #line = f.readline()
-            
-            #for line in f:
-                    #line = f.readline()
-                    #writer.writerow(fields)
-                    #print(fields)
-                   
             print(fields)
             writer = csv.writer(f)
             writer.writerow(fields)

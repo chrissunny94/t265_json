@@ -1,10 +1,11 @@
-Mapname,Chris Room
+Mapname,Bhatiasroomdisga
 last_location
 Who is creating the Map,Sff
-GPS_LAT,12.962873458862305
+GPS_LAT,12.962870597839355
 GPS_LONG,77.65885925292969
 calling number,03145471
 call duration,1.0
 Time-based Trigger,0
 Distance-based Trigger,1
 X,Y,Timestamp
+0.3829,-0.3236,19:37:08

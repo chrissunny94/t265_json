@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy, rospkg
 from std_msgs.msg import Int64 ,Bool
 from std_srvs.srv import SetBool
@@ -52,7 +52,7 @@ class T265JsonServer():
         self.HOST = HOST
 
 
-        PORT = 8084         # The port used by the server
+        PORT = 8081         # The port used by the server
         self.PORT = PORT
         print("Setting IP address:",self.HOST)
         print("Setting PORT:",self.PORT)
@@ -84,15 +84,11 @@ class T265JsonServer():
             print ("Start Listening...")
             while not rospy.is_shutdown():
                 try:
-                    #self.client.settimeout(3)
+                    self.client.settimeout(3)
                     conn, addr = self.client.accept()
                     print ("client with address: ", addr, " is connected.")
-                    #conn.settimeout(5)
-                    conn.setblocking(0)
-                    try:
-                        data = conn.recv(1024)
-                    except socket.error:
-                        '''no data yet..'''
+                    conn.settimeout(5)
+                    #conn.setblocking(0)
                     data = conn.recv(1024)
                     JSON_data = json.loads(data)
                     print ("Recieved this data: <", JSON_data, "> from the client.")
@@ -150,7 +146,7 @@ class T265JsonServer():
     
 if __name__ == '__main__':
     
-    rospy.init_node('t265_Json_server')
+    rospy.init_node('socket_server')
     
     print("main")
     T265JsonServer()
