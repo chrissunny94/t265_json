@@ -87,7 +87,7 @@ class T265JsonServer():
                     self.client.settimeout(3)
                     conn, addr = self.client.accept()
                     print ("client with address: ", addr, " is connected.")
-                    conn.settimeout(5)
+                    #conn.settimeout(5)
                     #conn.setblocking(0)
                     data = conn.recv(1024)
                     JSON_data = json.loads(data)
