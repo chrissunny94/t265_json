@@ -16,3 +16,5 @@ sudo apt-get install librealsense2-dkms
 sudo apt-get install librealsense2-utils
 sudo apt install ros-noetic-realsense2-*
 sudo apt install ros-noetic-librealsense2
+
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
