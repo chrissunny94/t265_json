@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # import rospy, rospkg
 # from std_msgs.msg import Int64 ,Bool
 # from std_srvs.srv import SetBool
@@ -84,7 +84,7 @@ class T265JsonServer():
             print ("Start Listening...")
             while True:
                 try:
-                    self.client.settimeout(3)
+                    #self.client.settimeout(3)
                     conn, addr = self.client.accept()
                     print ("client with address: ", addr, " is connected.")
                     #conn.settimeout(5)
@@ -111,7 +111,7 @@ class T265JsonServer():
                             print('\nsending data back to the client')
                             ack_packet = 'Data_recieved_by_raspberry_pi'
                             conn.sendall(ack_packet.encode("utf-8"))
-                            # print(data)
+                            print(ack_packet)
                             print(JSON_data["map_name"])
                             # temp_variable = JSON()
                             # temp_variable.MAP_NAME              = str(JSON_data['map_name'])
@@ -137,9 +137,11 @@ class T265JsonServer():
                     print("\nNo connection")
                     if(self.trigger_bool):
                         print("No socket connection")
-            self.client.close()
+            #self.client.close()
+            pass
         except KeyboardInterrupt:
-            self.client.close()
+            #self.client.close()
+            pass
     
 
 
