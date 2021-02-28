@@ -66,7 +66,7 @@ class T265JsonServer():
                     if ('BLANK' not in JSON_data):
                         if 'map_name' in JSON_data:
                             print('\nsending data back to the client')
-                            ack_packet = 'Data_recieved_by_raspberry_pi'
+                            ack_packet = json.dumps({"Data_recieved_by_raspberry_pi":True})
                             conn.sendall(ack_packet.encode("utf-8"))
                             print(ack_packet)
                             print(JSON_data["map_name"])
