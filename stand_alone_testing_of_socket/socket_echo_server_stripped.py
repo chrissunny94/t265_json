@@ -9,7 +9,6 @@ import sys , os
 
 os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 os.system('fuser -n tcp 8081')
-os.system('kill -9 $(lsof -i:8081 -t)')
 
 
 
