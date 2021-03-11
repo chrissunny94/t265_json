@@ -18,13 +18,9 @@ print("ROS PUBLISHERS")
 global trigger_bool 
 trigger_bool= False
 
-def trigger_callback(data):
-        print("trigger recieved")
-        global trigger_bool 
-        trigger_bool= data.data
+
 
 pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=1)  
-Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,trigger_callback)
 
 rospy.init_node('socket_server')
 print("main")
@@ -32,11 +28,21 @@ print("main")
 
 
 class EchoServerClientProtocol(asyncio.Protocol):
+    # def __init__(self):
         
+    
+
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
         print('Connection from {}'.format(peername))
         self.transport = transport
+        self.Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,self.trigger_callback)
+
+    def trigger_callback(self ,data):
+        #print("trigger recieved")
+        if (data.data):  
+            self.transport.write("\nmake_call\n".encode())
+        self.transport.close()  
         
     
 
@@ -82,8 +88,8 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 self.transport.write(ack_packet.encode())
                     
 
-        # print('Send: {!r}'.format(message))
-        # self.transport.write(data)
+        #print('Send: {!r}'.format(message))
+        #self.transport.write(data)
 
         print('Close the client socket')
         self.transport.close()
@@ -92,6 +98,7 @@ loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
 coro = loop.create_server(EchoServerClientProtocol, '192.168.0.100', 8081)
 server = loop.run_until_complete(coro)
+
 rate = rospy.Rate(1)
 
 
