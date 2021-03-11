@@ -27,9 +27,18 @@ source devel/setup.bash
 
 ## How to use
 
+The following will launch 3 things ,
+
+- Real sense camera drivers
+
+- Python script to interact with ANdroid APP
+
+- Python script to interact with REALSENSE and ANdroid APP
+
+
 
 ```
-roslaunch t265_json t265_node_without_rviz.launch
+roslaunch t265_json demo_t265.launch
 
 ```
 
