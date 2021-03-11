@@ -15,8 +15,8 @@ sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C
 sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
 sudo apt-get install librealsense2-dkms -y
 sudo apt-get install librealsense2-utils -y
-sudo apt install ros-noetic-realsense2-* -y
-sudo apt install ros-noetic-librealsense2 -y
+sudo apt install ros-melodic-realsense2-camera -y
+sudo apt install ros-melodic-librealsense2 -y
 sudo apt install -f
 
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
