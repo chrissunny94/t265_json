@@ -41,8 +41,10 @@ class T265JsonServer():
         print("Class constructor")
         self.pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=1)  
         self.Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,self.trigger_callback)
+        self.StopTrigger_sub = rospy.Subscriber('/STOP_MAPPING',Bool,self.stoptrigger_callback)
               
         self.trigger_bool = False
+        self.stopmapping_bool = False
 
         
         
@@ -72,9 +74,14 @@ class T265JsonServer():
                 
     
     def trigger_callback(self,data):
-        print("trigger recieved")
+        print("stopped_mapping")
         self.trigger_bool = True
-        
+    
+    def stoptrigger_callback(self,data):
+        print("trigger recieved")
+        self.stopmapping_bool = data.data
+    
+
     def Out_pub_JSON(self,data):
         self.pub_JSON.publish(data)
 

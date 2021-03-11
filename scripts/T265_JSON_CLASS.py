@@ -33,7 +33,7 @@ class T265Json():
         print("callback for JSON_from_phone")
         self.JSON_subscriber = rospy.Subscriber('/JSON_from_phone', JSON, self.callback_JSON)
         self.Trigger_publisher = rospy.Publisher('/android_call_trigger',Bool, queue_size=10)
-        
+        self.Mappingstatus_subscriber = rospy.Subscriber("/MAPPING_STATUS",Bool, self.mappingstatus_callback)
         #self.create_csv(self)
        
         
@@ -45,6 +45,13 @@ class T265Json():
         self.last_odom = Odometry()
         self.TIME_BASED_TRIGGER = False
         self.DISTANCE_BASED_TRIGGER = False
+        self.MAPPING_STATUS= False
+
+    def mappingstatus_callback(self,data):
+        print("Mapping Off for ,"+self.MAP_FILE_NAME)
+        self.MAPPING_STATUS = data.data
+
+    
 
     def callback_t265(self,data):
          
@@ -52,8 +59,8 @@ class T265Json():
         self.current_time = now.strftime("%H:%M:%S")
         #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
         #self.append_csv(data)
-
-        if (self.TIME_BASED_TRIGGER) :
+        
+        if (self.TIME_BASED_TRIGGER ) :
             if (self.last_time == None):
                 #self.last_time = self.current_time
                 self.last_time = now
@@ -65,7 +72,7 @@ class T265Json():
                 print((now - self.last_time).seconds)
                 self.last_time = now
                 self.append_csv(data)
-        elif (self.DISTANCE_BASED_TRIGGER) :
+        elif (self.DISTANCE_BASED_TRIGGER ) :
             X = data.pose.pose.position.x
             Y = data.pose.pose.position.y
             last_x = self.last_odom.pose.pose.position.x
@@ -78,7 +85,8 @@ class T265Json():
             elif (math.hypot((last_x - X), (last_y - Y)) > .5):
                 self.last_odom = data
                 self.append_csv(data)
-            
+
+   
         
     def callback_JSON(self,data):
         self.MAP_FILE_NAME= data.MAP_NAME + '.csv'

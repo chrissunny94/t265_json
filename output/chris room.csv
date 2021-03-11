@@ -1,0 +1,17 @@
+Mapname,chris room
+last_location
+Who is creating the Map,chris
+GPS_LAT,37.4219970703125
+GPS_LONG,-122.08399963378906
+calling number,8887775131
+call duration,1.0
+Time-based Trigger,1
+Distance-based Trigger,0
+X,Y,Timestamp
+0.001,-0.0002,2021-03-11 23:01:14.813889
+0.0019,0.0001,23:01:15
+0.0013,-0.0002,23:01:16
+0.0017,-0.0001,23:01:17
+0.0014,-0.0005,23:01:18
+0.0015,-0.0002,23:01:19
+0.0017,-0.0002,23:01:20

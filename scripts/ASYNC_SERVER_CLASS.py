@@ -21,7 +21,7 @@ trigger_bool= False
 
 
 pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=1)  
-pub_STOP = rospy.Publisher('/STOP_MAPPING', Bool, queue_size=1)  
+pub_MAPPING_STATUS = rospy.Publisher('/MAPPING_STATUS', Bool, queue_size=1)  
 
 rospy.init_node('socket_server')
 print("main")
@@ -79,15 +79,16 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 self.transport.write(ack_packet.encode())
                 global pub_JSON
                 pub_JSON.publish(temp_variable)
+
                 #print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
-                pub_STOP.publish(False)
+                pub_MAPPING_STATUS.publish(True)
             
             elif 'stop_mapping' in JSON_data:
                 print("stop mapping ")
                 ack_packet = json.dumps({"stopped_mapping":True})
                 print('\n\n\nsending data back to the client\n\n'+ack_packet)
                 self.transport.write(ack_packet.encode())
-                pub_STOP.publish(True)
+                pub_MAPPING_STATUS.publish(False)
                     
 
         #print('Send: {!r}'.format(message))
@@ -98,7 +99,8 @@ class EchoServerClientProtocol(asyncio.Protocol):
 
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
-coro = loop.create_server(EchoServerClientProtocol, '192.168.0.100', 8081)
+HOST = str(os.popen('hostname -I').read())
+coro = loop.create_server(EchoServerClientProtocol, HOST, 8081)
 server = loop.run_until_complete(coro)
 
 rate = rospy.Rate(1)
