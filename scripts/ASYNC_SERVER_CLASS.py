@@ -21,6 +21,7 @@ trigger_bool= False
 
 
 pub_JSON = rospy.Publisher('/JSON_from_phone', JSON, queue_size=1)  
+pub_STOP = rospy.Publisher('/STOP_MAPPING', Bool, queue_size=1)  
 
 rospy.init_node('socket_server')
 print("main")
@@ -34,7 +35,7 @@ class EchoServerClientProtocol(asyncio.Protocol):
 
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
-        print('Connection from {}'.format(peername))
+        #print('Connection from {}'.format(peername))
         self.transport = transport
         self.Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,self.trigger_callback)
 
@@ -78,14 +79,15 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 self.transport.write(ack_packet.encode())
                 global pub_JSON
                 pub_JSON.publish(temp_variable)
-                print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
-                
+                #print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
+                pub_STOP.publish(False)
             
             elif 'stop_mapping' in JSON_data:
                 print("stop mapping ")
                 ack_packet = json.dumps({"stopped_mapping":True})
                 print('\n\n\nsending data back to the client\n\n'+ack_packet)
                 self.transport.write(ack_packet.encode())
+                pub_STOP.publish(True)
                     
 
         #print('Send: {!r}'.format(message))
