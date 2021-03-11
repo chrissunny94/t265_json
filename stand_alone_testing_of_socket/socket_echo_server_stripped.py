@@ -49,7 +49,7 @@ class T265JsonServer():
                     #conn.setblocking(0)
                     data = conn.recv(1024)
                     JSON_data = json.loads(data)
-                    # print ("Recieved this data: <", JSON_data, "> from the client.")
+                    print ("Recieved this data: <", JSON_data, "> from the client.")
                 except :
                     JSON_data = {"BLANK":True}
                     conn = False
@@ -83,9 +83,12 @@ class T265JsonServer():
                     print("\nNo connection")
                     if(self.trigger_bool):
                         print("No socket connection")
-            pass
+            
         except KeyboardInterrupt:
-            pass
+            print "Bye"
+            print "x=",x
+            sys.exit()
+            exit()
     
 
 

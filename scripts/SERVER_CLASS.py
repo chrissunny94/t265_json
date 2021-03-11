@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy, rospkg
 from std_msgs.msg import Int64 ,Bool
 from std_srvs.srv import SetBool
@@ -12,9 +12,13 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from t265_json.msg import JSON
 import sys , os
+import time
+
+import asyncio
 
 
 
+BUFSIZE=1096
 
 rospack = rospkg.RosPack()
 Package_Path=rospack.get_path('t265_json')
@@ -27,7 +31,7 @@ print("CLASS FOR T265")
 
 os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 os.system('fuser -n tcp 8081')
-os.system('kill -9 $(lsof -i:8081 -t)')
+#os.system('kill -9 $(lsof -i:8081 -t)')
 
 
 
@@ -52,7 +56,7 @@ class T265JsonServer():
         self.HOST = HOST
 
 
-        PORT = 8081         # The port used by the server
+        PORT = 8083         # The port used by the server
         self.PORT = PORT
         print("Setting IP address:",self.HOST)
         print("Setting PORT:",self.PORT)
@@ -79,22 +83,25 @@ class T265JsonServer():
     def socket_loop_function(self):
         try:
             print("\nSocket")
+            self.client=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client.settimeout(1)
+            self.client.setblocking(0)
             self.client.bind((self.HOST, self.PORT))
-            self.client.listen(10) # how many connections can it receive at one time
+            self.client.listen(1) # how many connections can it receive at one time
             print ("Start Listening...")
             while not rospy.is_shutdown():
                 try:
-                    self.client.settimeout(3)
+                    self.client.settimeout(None)
                     conn, addr = self.client.accept()
                     print ("client with address: ", addr, " is connected.")
-                    conn.settimeout(5)
-                    #conn.setblocking(0)
-                    data = conn.recv(1024)
+                    #conn.settimeout(None)
+                    conn.setblocking(0)
+                    data=conn.recv(BUFSIZE).decode()
                     JSON_data = json.loads(data)
                     print ("Recieved this data: <", JSON_data, "> from the client.")
                 except :
                     JSON_data = {"BLANK":True}
-                    conn = False
+                    #conn = False
 
                 if(conn ):
                     print("\nCOnnection established")
@@ -110,7 +117,7 @@ class T265JsonServer():
                             print(data)
                             print('\nsending data back to the client')
                             ack_packet = 'Data_recieved_by_raspberry_pi'
-                            conn.sendall(ack_packet.encode("utf-8"))
+                            conn.send(ack_packet.encode("utf-8"))
                             print(data)
                             print(JSON_data["map_name"])
                             temp_variable = JSON()
@@ -125,18 +132,20 @@ class T265JsonServer():
                             print(temp_variable)
                             self.Out_pub_JSON(temp_variable)
                             print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
+                            
                         
                         elif 'stop_mapping' in JSON_data:
                             print("stop mapping ")
                             ack_packet = json.dumps({"stopped_mapping":True})
                             print('\n\n\nsending data back to the client\n\n'+ack_packet)
-                            conn.sendall(ack_packet.encode("utf-8"))
+                            conn.send(ack_packet.encode("utf-8"))
                     else:
+                        time.sleep(1)
                         print('\nNODATA')
                 elif(not conn):
                     print("\nNo connection")
-                    if(self.trigger_bool):
-                        print("No socket connection")
+                    pass
+                    
             self.client.close()
         except KeyboardInterrupt:
             self.client.close()
