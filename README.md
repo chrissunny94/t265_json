@@ -10,6 +10,16 @@ mkdir ~/catkin_ws/src -p
 cd ~/catkin_ws/src
 git clone  https://github.com/chrissunny94/t265_json
 cd t265_json
+```
+
+
+
+
+
+## Install the dependencies 
+
+
+```
 ./install_ros_melodic_and_realsense_drivers_for_ubuntu.sh
 ```
 
