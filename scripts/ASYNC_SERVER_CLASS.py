@@ -42,7 +42,7 @@ class EchoServerClientProtocol(asyncio.Protocol):
     def trigger_callback(self ,data):
         #print("trigger recieved")
         if (data.data):  
-            self.transport.write("\nmake_call\n".encode())
+            self.transport.write(json.dumbs({"TRIGGER_CALL":True}).encode())
         self.transport.close()  
         
     
@@ -64,7 +64,8 @@ class EchoServerClientProtocol(asyncio.Protocol):
             if 'map_name' in JSON_data:
                 #print(data)
                 #print('\nsending data back to the client')
-                ack_packet = 'Data_recieved_by_raspberry_pi'
+                ack_packet = json.dumbs({"Data_recieved_by_raspberry_pi":True})
+                self.transport.write(ack_packet.encode())
                 print(JSON_data["map_name"])
                 temp_variable = JSON()
                 temp_variable.MAP_NAME              = str(JSON_data['map_name'])
@@ -76,8 +77,6 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 temp_variable.TIME_BASED_TRIGGER    = (JSON_data['trigger_time_based'])
                 temp_variable.DISTANCE_BASED_TRIGGER= (JSON_data['trigger_distance_based'])
                 print(temp_variable)
-                self.transport.write(ack_packet.encode())
-                global pub_JSON
                 pub_JSON.publish(temp_variable)
 
                 #print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
