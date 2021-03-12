@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-
+#!/usr/bin/env python3
 import rospy
 import rospkg
 from std_msgs.msg import Int64 ,Bool
@@ -59,32 +58,32 @@ class T265Json():
         self.current_time = now.strftime("%H:%M:%S")
         #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.pose.pose.position.x)
         #self.append_csv(data)
-        
-        if (self.TIME_BASED_TRIGGER ) :
-            if (self.last_time == None):
-                #self.last_time = self.current_time
-                self.last_time = now
-                self.current_time = now
-                self.append_csv(data)
-                self.Trigger_publisher.publish(True)
-                print("Time based trigger")
-            elif ((now - self.last_time).seconds >= 1) :
-                print((now - self.last_time).seconds)
-                self.last_time = now
-                self.append_csv(data)
-        elif (self.DISTANCE_BASED_TRIGGER ) :
-            X = data.pose.pose.position.x
-            Y = data.pose.pose.position.y
-            last_x = self.last_odom.pose.pose.position.x
-            last_y = self.last_odom.pose.pose.position.y
-            if (self.last_odom == None) :
-                self.last_odom = data
-                self.append_csv(data)
-                self.Trigger_publisher.publish(True)
-                print("Distance based trigger")
-            elif (math.hypot((last_x - X), (last_y - Y)) > .5):
-                self.last_odom = data
-                self.append_csv(data)
+        if(self.MAPPING_STATUS):
+            if (self.TIME_BASED_TRIGGER ) :
+                if (self.last_time == None):
+                    #self.last_time = self.current_time
+                    self.last_time = now
+                    self.current_time = now
+                    self.append_csv(data)
+                    
+                    print("Time based trigger")
+                elif ((now - self.last_time).seconds >= 1) :
+                    print((now - self.last_time).seconds)
+                    self.last_time = now
+                    self.append_csv(data)
+            elif (self.DISTANCE_BASED_TRIGGER ) :
+                X = data.pose.pose.position.x
+                Y = data.pose.pose.position.y
+                last_x = self.last_odom.pose.pose.position.x
+                last_y = self.last_odom.pose.pose.position.y
+                if (self.last_odom == None) :
+                    self.last_odom = data
+                    self.append_csv(data)
+                    
+                    print("Distance based trigger")
+                elif (math.hypot((last_x - X), (last_y - Y)) > .5):
+                    self.last_odom = data
+                    self.append_csv(data)
 
    
         
@@ -119,6 +118,7 @@ class T265Json():
         self.last_time = None
 
     def append_csv(self,data):
+        self.Trigger_publisher.publish(True)
         fields=[str(round(data.pose.pose.position.x,4)),str(round(data.pose.pose.position.y,4)),self.current_time]
         with open(Package_Path+'/output/'+self.MAP_FILE_NAME, 'a+') as f:
             print(fields)

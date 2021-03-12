@@ -7,10 +7,6 @@ from std_msgs.msg import Int64 ,Bool
 import os
 import json
 
-# # Close the server
-# server.close()
-# loop.run_until_complete(server.wait_closed())
-# loop.close()
 os.system('fuser -$SIGNAL_NUMBER_OR_NAME -kn tcp 8081')
 os.system('fuser -n tcp 8081')
 
@@ -40,9 +36,9 @@ class EchoServerClientProtocol(asyncio.Protocol):
         self.Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,self.trigger_callback)
 
     def trigger_callback(self ,data):
-        #print("trigger recieved")
-        if (data.data):  
-            self.transport.write(json.dumbs({"TRIGGER_CALL":True}).encode())
+        if (data.data):
+            ack_packet = json.dumps( {"TRIGGER_CALL":True} )  
+            self.transport.write(ack_packet.encode())
         self.transport.close()  
         
     
@@ -55,17 +51,14 @@ class EchoServerClientProtocol(asyncio.Protocol):
 
         if(trigger_bool):
             #self.client.settimeout(20)
-            ack_packet = json.dumps({"trigger_call":True})
+            ack_packet = json.dumps( {"trigger_call":True} )
             print('\n\n\nsending data back to the client\n\n'+ack_packet)
             self.transport.write(ack_packet.encode("utf-8"))
             trigger_bool = False
         
         if ('BLANK' not in JSON_data):
             if 'map_name' in JSON_data:
-                #print(data)
-                #print('\nsending data back to the client')
-                ack_packet = json.dumbs({"Data_recieved_by_raspberry_pi":True})
-                self.transport.write(ack_packet.encode())
+                pub_MAPPING_STATUS.publish(True)
                 print(JSON_data["map_name"])
                 temp_variable = JSON()
                 temp_variable.MAP_NAME              = str(JSON_data['map_name'])
@@ -78,9 +71,11 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 temp_variable.DISTANCE_BASED_TRIGGER= (JSON_data['trigger_distance_based'])
                 print(temp_variable)
                 pub_JSON.publish(temp_variable)
-
+                ack_packet = json.dumbs({"Data_recieved_by_raspberry_pi":True})
+                self.transport.write(ack_packet.encode())
+                    
                 #print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
-                pub_MAPPING_STATUS.publish(True)
+                
             
             elif 'stop_mapping' in JSON_data:
                 print("stop mapping ")
@@ -90,9 +85,7 @@ class EchoServerClientProtocol(asyncio.Protocol):
                 pub_MAPPING_STATUS.publish(False)
                     
 
-        #print('Send: {!r}'.format(message))
-        #self.transport.write(data)
-
+        
         print('Close the client socket')
         self.transport.close()
 
