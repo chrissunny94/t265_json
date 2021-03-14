@@ -88,7 +88,7 @@ class T265Json():
    
         
     def callback_JSON(self,data):
-        self.MAP_FILE_NAME= data.MAP_NAME + '.csv'
+        self.MAP_FILE_NAME= data.MAP_NAME+"-" +self.current_time + '.csv'
         self.TIME_BASED_TRIGGER = data.TIME_BASED_TRIGGER
         self.DISTANCE_BASED_TRIGGER = data.DISTANCE_BASED_TRIGGER
         print(data)
