@@ -92,7 +92,10 @@ class EchoServerClientProtocol(asyncio.Protocol):
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
 HOST = str(os.popen('hostname -I').read())
-coro = loop.create_server(EchoServerClientProtocol, HOST, 8081)
+print(HOST)
+IPV4HOST,sep,IPV6HOST = HOST.partition(' ')
+print(IPV4HOST)
+coro = loop.create_server(EchoServerClientProtocol, IPV4HOST, 8081)
 server = loop.run_until_complete(coro)
 
 rate = rospy.Rate(1)
