@@ -1,7 +1,12 @@
 <launch>
 
+<arg name="rviz" value="False" />
+
   <node name="scans_demo" pkg="rosbag" type="play" output="screen" args="--loop $(find t265_json)/bagfile/sample.bag"/>
   <node name="Server_node" pkg="t265_json" type="ASYNC_SERVER_CLASS.py" output="screen"/>
   <node name="T265_JSON_CLASS_node" pkg="t265_json" type="T265_JSON_CLASS.py" output="screen"/>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find t265_json)/rviz/t265.rviz" required="true" />
+
+  <group if="$(arg rviz)">
+      <node name="rviz" pkg="rviz" type="rviz" args="-d $(find t265_json)/rviz/t265.rviz" required="true" />
+  </group>
 </launch>
