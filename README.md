@@ -54,6 +54,14 @@ roslaunch t265_json demo_t265.launch
 
 
 
+## How to test without hardware 
+
+
+```
+roslaunch t265_json demo_t265_with_prerecordeddata.launch
+```
+
+
 ## Screenshots of a suitable APK
 
 <img src="docs/android.jpeg" width="200">
