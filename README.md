@@ -1,6 +1,15 @@
 # t265_json
 
+Requirement ,
 
+UBUNTU LTS version either 14.04,16.04 ,18.04 , 20.04
+
+
+Please install git 
+
+```
+sudo apt install git 
+```
 
 
 ## Clone & install ros
