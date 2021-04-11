@@ -1,6 +1,15 @@
 # t265_json
 
+Requirement ,
 
+UBUNTU LTS version either 14.04,16.04 ,18.04 , 20.04
+
+
+Please install git 
+
+```
+sudo apt install git 
+```
 
 
 ## Clone & install ros
@@ -48,6 +57,8 @@ The following will launch 3 things ,
 
 
 ```
+cd ~/catkin_ws
+source devel/setup.bash
 roslaunch t265_json demo_t265.launch
 
 ```
