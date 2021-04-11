@@ -6,6 +6,11 @@ sio = socketio.Client()
 def connect():
     print('connection established')
     sio.emit('start_mapping')
+    
+
+@sio.event
+def send_data(data):
+    sio.emit(data)
 
 @sio.event
 def my_message(data):

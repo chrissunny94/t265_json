@@ -66,7 +66,7 @@ def my_message(sid, data):
             print(temp_variable)
             pub_JSON.publish(temp_variable)
             ack_packet = json.dumbs({"Data_recieved_by_raspberry_pi":True})
-            sio.emit(ack_packet.encode())
+            sio.emit('my_response',ack_packet.encode())
                 
             #print ("x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x")
             
