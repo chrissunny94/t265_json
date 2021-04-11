@@ -1,5 +1,8 @@
 # t265_json
 
+
+<img src="docs/trajectory.png" width="200">
+
 Requirement ,
 
 UBUNTU LTS version either 14.04,16.04 ,18.04 , 20.04

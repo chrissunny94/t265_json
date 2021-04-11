@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from __future__ import print_function
 import rospy
 from tf.transformations import quaternion_from_euler
@@ -20,7 +20,7 @@ def callback(data):
 
         pose = PoseStamped()
 
-        pose.header.frame_id = "main"
+        pose.header.frame_id = data.header.frame_id
         pose.pose.position.x = float(data.pose.pose.position.x)
         pose.pose.position.y = float(data.pose.pose.position.y)
         pose.pose.position.z = float(data.pose.pose.position.z)
@@ -31,7 +31,7 @@ def callback(data):
 
         if (xAnt != pose.pose.position.x and yAnt != pose.pose.position.y):
                 pose.header.seq = path.header.seq + 1
-                path.header.frame_id = "main"
+                path.header.frame_id = data.header.frame_id
                 path.header.stamp = rospy.Time.now()
                 pose.header.stamp = path.header.stamp
                 path.poses.append(pose)
@@ -66,8 +66,9 @@ if __name__ == '__main__':
         # max size of array pose msg from the path
         if not rospy.has_param("~max_list_append"):
                 rospy.logwarn('The parameter max_list_append dont exists')
-        max_append = rospy.set_param("~max_list_append", 1000)
-        max_append = 1000
+        
+        max_append = rospy.set_param("~max_list_append", 100000)
+        max_append = 100000
         if not (max_append > 0):
                 rospy.logwarn('The parameter max_list_append is not correct')
                 sys.exit()
@@ -77,7 +78,7 @@ if __name__ == '__main__':
         msg = Odometry()
 
         # Subscription to the required odom topic (edit accordingly)
-        msg = rospy.Subscriber('/t265/odom/sample', Odometry, callback)
+        msg = rospy.Subscriber('/camera/odom/sample', Odometry, callback)
 
         rate = rospy.Rate(30)  # 30hz
 
