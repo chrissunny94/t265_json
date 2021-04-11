@@ -57,6 +57,8 @@ The following will launch 3 things ,
 
 
 ```
+cd ~/catkin_ws
+source devel/setup.bash
 roslaunch t265_json demo_t265.launch
 
 ```
