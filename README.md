@@ -1,7 +1,7 @@
 # t265_json
 
 
-<img src="docs/trajectory.png" width="200">
+<img src="docs/trajectory.png" width="500">
 
 Requirement ,
 
