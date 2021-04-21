@@ -1,6 +1,6 @@
 <launch>
   <node name="T265_JSON_CLASS_node" pkg="t265_json" type="T265_JSON_CLASS.py" output="screen"/>
-  <node name="Socket_node" pkg="t265_json" type="ASYNC_SERVER_CLASS.py" output="screen"/>
+  <node name="Socket_node" pkg="t265_json" type="YASH_SOCKETIO.py" output="screen"/>
   <include file="$(find realsense2_camera)/launch/rs_t265.launch"/>
 
 </launch>

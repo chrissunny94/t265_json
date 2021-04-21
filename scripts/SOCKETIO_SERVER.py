@@ -35,8 +35,9 @@ app = socketio.WSGIApp(sio, static_files={
 def connect(sid, environ):
     print('connect ', sid)
 
-@sio.event
-def my_message(sid, data):
+@sio.on('start_mapping')
+def start_mapping(sid, data):
+    print("start_mapping")
     print('message ', data)
     message = data.decode()
     print('Data received: {!r}'.format(message))
@@ -95,4 +96,4 @@ print("\nIPV4Address:" +IPV4HOST + "\n")
 
 
 if __name__ == '__main__':
-    eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+    eventlet.wsgi.server(eventlet.listen((IPV4HOST, 5000)), app)

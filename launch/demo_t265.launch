@@ -1,7 +1,7 @@
 <launch>
-  <node name="Server_node" pkg="t265_json" type="ASYNC_SERVER_CLASS.py" output="screen"/>
+  <node name="Server_node" pkg="t265_json" type="YASH_SOCKETIO.py" output="screen"/>
   <node name="T265_JSON_CLASS_node" pkg="t265_json" type="T265_JSON_CLASS.py" output="screen"/>
-  <node name="T265_JSON_CLASS_node" pkg="t265_json" type="odom_to_path.py" output="screen"/>
+  <node name="ODOM_TO_PATH" pkg="t265_json" type="odom_to_path.py" output="screen"/>
   <include file="$(find t265_json)/launch/rs_t265.launch"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find t265_json)/rviz/t265.rviz" required="true" />
 </launch>
