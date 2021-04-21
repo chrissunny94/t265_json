@@ -19,14 +19,29 @@ mapping_status = False
 sio = socketio.Server()
 app = socketio.WSGIApp(sio, static_files = {
 	'/': './public/'})
+global Sid
+
+def task(sid):
+	#sio.sleep(5)
+	result = sio.call('call_client', {'params': [3, 4]}, to= sid) 
+	print("result: ", result)
+
+@sio.event
+def connect(sid, environ):
+	print("Session Id: ", sid, "connected")
+	global Sid
+	Sid = sid	
+	#sio.start_background_task(task, sid)
 
 
 def trigger_callback( data):
 	global mapping_status
 	if (data.data and mapping_status):
-		ack_packet = json.dumps( {"TRIGGER_CALL":True} ) 
+		ack_packet = json.dumps( {"make_call":True} ) 
 		print(ack_packet)
-		sio.emit(ack_packet.encode()) 
+		sio.emit(ack_packet.encode())
+		global Sid
+		#sio.call('make_call', {'params': ack_packet}, to= Sid)  
 	global trigger_bool 
 	trigger_bool= data.data
 
@@ -40,20 +55,14 @@ Trigger_sub = rospy.Subscriber('/android_call_trigger',Bool,trigger_callback)
 rospy.init_node('socket_server')
 print("main")
 
-def task(sid):
-	#sio.sleep(5)
-	result = sio.call('call_client', {'params': [3, 4]}, to= sid) 
-	print("result: ", result)
 
-@sio.event
-def connect(sid, environ):
-	print("Session Id: ", sid, "connected")	
-	#sio.start_background_task(task, sid)
 
 
 @sio.event
 def disconnect(sid):
 	print(sid, 'disconnected')
+	global Sid
+	Sid = sid
 
 @sio.event
 def stop_mapping(sid,data):
@@ -64,6 +73,8 @@ def stop_mapping(sid,data):
 	pub_MAPPING_STATUS.publish(False)
 	global mapping_status
 	mapping_status = False
+	global Sid
+	Sid = sid
 
 
 @sio.event
