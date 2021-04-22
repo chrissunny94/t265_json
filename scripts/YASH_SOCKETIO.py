@@ -23,25 +23,37 @@ global Sid
 
 def task(sid):
 	#sio.sleep(5)
-	result = sio.call('call_client', {'params': [3, 4]}, to= sid) 
-	print("result: ", result)
+	global trigger_bool ,mapping_status
+	print("Created TASK")
+	while (True):
+		print(mapping_status,trigger_bool)
+		if(mapping_status and trigger_bool):  
+			result = sio.call('make_call', {'params': "8130324904"}, to= sid) 
+			print("result: ", result)
+			trigger_bool = False
+		else:
+			pass
+		sio.sleep(.5)
+
+
+
 
 @sio.event
 def connect(sid, environ):
 	print("Session Id: ", sid, "connected")
 	global Sid
 	Sid = sid	
-	#sio.start_background_task(task, sid)
+	sio.start_background_task(task, sid)
 
 
 def trigger_callback( data):
 	global mapping_status
 	if (data.data and mapping_status):
+		print("I am in ROS CALLBACK")
 		ack_packet = json.dumps( {"make_call":True} ) 
 		print(ack_packet)
 		sio.emit(ack_packet.encode())
-		global Sid
-		#sio.call('make_call', {'params': ack_packet}, to= Sid)  
+		
 	global trigger_bool 
 	trigger_bool= data.data
 
@@ -73,8 +85,7 @@ def stop_mapping(sid,data):
 	pub_MAPPING_STATUS.publish(False)
 	global mapping_status
 	mapping_status = False
-	global Sid
-	Sid = sid
+	
 
 
 @sio.event
