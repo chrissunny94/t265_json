@@ -39,7 +39,7 @@ def callback(data):
 
         cont = cont + 1
 
-        rospy.loginfo("Hit: %i" % cont)
+        #rospy.loginfo("Hit: %i" % cont)
         if cont > max_append:
                 path.poses.pop(0)
 
