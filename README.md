@@ -12,6 +12,7 @@ Please install git
 
 ```
 sudo apt install git 
+sudo pip3 install python-socketio eventlet
 ```
 
 
