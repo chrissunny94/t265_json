@@ -5,7 +5,12 @@
 
 Requirement ,
 
-UBUNTU LTS version either 14.04,16.04 ,18.04 , 20.04
+UBUNTU LTS version and the correct ROS version  
+
+- 14.04 = ROS indigo 
+- 16.04 = ROS Kinetic
+- 18.04 = ROS Melodic
+- 20.04 = ROS Noetic
 
 
 Please install git 
