@@ -28,7 +28,7 @@ class T265Json():
     def __init__(self):
         print("Class constructor")
         print("callback for odometry ")
-        self.odometry_subscriber = rospy.Subscriber('/camera/odom/sample', Odometry, self.callback_t265)
+        self.odometry_subscriber = rospy.Subscriber('/android/odom', Odometry, self.callback_t265)
         print("callback for JSON_from_phone")
         self.JSON_subscriber = rospy.Subscriber('/JSON_from_phone', JSON, self.callback_JSON)
         self.Trigger_publisher = rospy.Publisher('/android_call_trigger',Bool, queue_size=10)

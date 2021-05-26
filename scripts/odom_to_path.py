@@ -78,7 +78,7 @@ if __name__ == '__main__':
         msg = Odometry()
 
         # Subscription to the required odom topic (edit accordingly)
-        msg = rospy.Subscriber('/camera/odom/sample', Odometry, callback)
+        msg = rospy.Subscriber('/android/odom', Odometry, callback)
 
         rate = rospy.Rate(30)  # 30hz
 
