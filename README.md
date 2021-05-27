@@ -7,6 +7,16 @@ Requirement ,
 
 UBUNTU LTS version and the correct ROS version  
 
+**This is the result of 6 months of misery at the end where i gained nothing other than wated time and effort . Hope you dont waste time on this hope your efforts are atelast fruitful**
+
+No Best Regards ,
+
+- Dil , trinath 
+
+And the rest .
+
+
+
 - 14.04 = ROS indigo 
 - 16.04 = ROS Kinetic
 - 18.04 = ROS Melodic
